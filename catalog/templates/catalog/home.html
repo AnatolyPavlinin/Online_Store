@@ -23,24 +23,42 @@
 </div>
 
 <div class="container">
-    <div class="row text-center">
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 140</h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>- Неограниченная лицензия</li>
-                        <li>- Поддержка</li>
-                        <li>- Установка на сервер</li>
-                        <li>- Получение обновлений</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+
+        {% for product in products %}
+
+            <div class="col">
+                <div class="card h-100">
+
+
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="/static/images/no-image.png" class="card-img-top" alt="No Image">
+                    {% endif %}
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+
+
+                        <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+
+                        <p class="card-text"><strong>Цена:</strong> {{ product.price }} ₽</p>
+
+
+                        <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
+                    </div>
                 </div>
             </div>
-        </div>
+
+        {% empty %}
+
+            <div class="alert alert-info" role="alert">
+                Товары временно отсутствуют
+            </div>
+        {% endfor %}
+    </div>
     </div>
 
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
@@ -73,7 +91,7 @@
             </div>
         </div>
     </footer>
-</div>
+
 <script src="static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
