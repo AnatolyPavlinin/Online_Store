@@ -14,3 +14,4 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category',)
     search_fields = ('name', 'description',)
     readonly_fields = ('created_at', 'updated_at',)
+    fields = ('name', 'description', 'image', 'price', 'category', 'created_at', 'updated_at')
