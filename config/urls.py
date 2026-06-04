@@ -3,9 +3,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("catalog/", include("catalog.urls", namespace="catalog"))
+    path("catalog/", include("catalog.urls", namespace="catalog")),
+    path('blog/', include('blog.urls', namespace="blog")),
+    path('blogs/', include('blog.urls', namespace='blog')),
 ]
 
 if settings.DEBUG:
