@@ -33,12 +33,12 @@
 
 
                     {% if product.image %}
-                        <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        <img src="{{ product.image.url }}" class="card-img-top flex-grow-1" alt="{{ product.name }}">
                     {% else %}
                         <img src="/static/images/no-image.png" class="card-img-top" alt="No Image">
                     {% endif %}
 
-                    <div class="card-body">
+                    <div class="card-body h-100 d-flex flex-column">
                         <h5 class="card-title">{{ product.name }}</h5>
 
 
@@ -92,6 +92,6 @@
         </div>
     </footer>
 
-<script src="static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
