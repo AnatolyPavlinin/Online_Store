@@ -1,0 +1,32 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Последние записи{% endblock %}
+
+{% block content %}
+    <h2>Последние записи</h2>
+
+    {% for post in posts %}
+        <article>
+            <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <time>{{ post.created_at|date:'d M Y' }}</time>
+            <p>{{ post.content|safe|truncatewords_html:50 }}</p>
+        </article>
+    {% empty %}
+        <p>Пока нет записей</p>
+    {% endfor %}
+
+
+    {% if is_paginated %}
+        <nav>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">Назад</a>
+            {% endif %}
+
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Вперед</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endblock %}
