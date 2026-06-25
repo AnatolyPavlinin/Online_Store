@@ -53,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "catalog.middleware.AdminAccessMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -136,3 +137,13 @@ FORBIDDEN_WORDS = [
 
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = ['users.authentication.EmailModelBackend',]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'rider3766@yandex.ru'
+EMAIL_HOST_PASSWORD = 'kwuojvwcpfydxbgd'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
