@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "catalog",
     'blog.apps.BlogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -73,9 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -131,9 +129,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 APPEND_SLASH = True
 
-# settings.py
-
 FORBIDDEN_WORDS = [
     'казино', 'криптовалюта', 'крипта', 'биржа', 'дешево',
     'бесплатно', 'обман', 'полиция', 'радар'
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
+AUTHENTICATION_BACKENDS = ['users.authentication.EmailModelBackend',]
