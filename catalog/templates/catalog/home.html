@@ -49,15 +49,15 @@
 
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
 
-                        {% if perms.catalog.change_product %}
-                             <a href="{% url 'catalog:product_edit' product.pk %}" class="btn btn-warning">Редактировать</a>
-                        {% endif %}
-
-                        {% if perms.catalog.can_unpublish_product and product.is_published %}
+                        {% if (request.user == product.owner or perms.catalog.can_unpublish_product) and product.is_published %}
                              <a href="{% url 'catalog:product_unpublish' product.pk %}" class="btn btn-danger">Снять с публикации</a>
                         {% endif %}
 
-                        {% if perms.catalog.delete_product %}
+                        {% if request.user == product.owner %}
+                             <a href="{% url 'catalog:product_edit' product.pk %}" class="btn btn-warning">Редактировать</a>
+                        {% endif %}
+
+                        {% if request.user == product.owner or perms.catalog.delete_product %}
                              <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
                         {% endif %}
 

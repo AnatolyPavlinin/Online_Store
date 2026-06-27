@@ -20,24 +20,42 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
+    def form_valid(self, form):
+        product = form.save(commit=False)
+        product.owner = self.request.user
+        product.save()
+        return redirect('catalog:product_list')
 
-class ProductEditView(UpdateView):
+
+class ProductEditView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
+        if product.owner != request.user and not request.user.has_perm('catalog.change_product'):
+            raise PermissionDenied("Вы не можете редактировать чужой товар")
+        return super().dispatch(request, *args, **kwargs)
 
-class ProductDeleteView(DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:home')
+
+    def dispatch(self, request, *args, **kwargs):
+        product = self.get_object()
+        if product.owner != request.user and not request.user.has_perm('catalog.delete_product'):
+            raise PermissionDenied("Вы не можете удалять чужой товар")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ContactsPage(View):

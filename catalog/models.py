@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+
 
 class Category(models.Model):
     name = models.CharField(max_length=150, verbose_name='наименование')
@@ -33,7 +35,13 @@ class Product(models.Model):
         default='draft',
         verbose_name='Статус'
     )
-
+    owner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Владелец'
+    )
 
     def __str__(self):
         return self.name
