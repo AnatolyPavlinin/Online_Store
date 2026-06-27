@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Product
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, RedirectView
 from django.views import View
 from .forms import ProductForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 class ProductListView(ListView):
@@ -52,3 +53,12 @@ class ContactsPage(View):
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.", status=200)
 
 
+class ProductUnpublishView(LoginRequiredMixin, PermissionRequiredMixin, RedirectView):
+    permission_required = 'catalog.can_unpublish_product'
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        product = Product.objects.get(pk=kwargs['product_id'])
+        product.status = 'hidden'
+        product.save()
+        return reverse('catalog:product_list')
