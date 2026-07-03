@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <article>
+        <h1>{{ post.title }}</h1>
+        <div class="meta">
+            Опубликовано: <time>{{ post.created_at|date:"d M Y" }}</time>
+            <p>• Автор: {{ post.author.username }}</p>
+            <p>• Просмотров: <strong>{{ post.views_count }}</strong></p>
+        </div>
+
+        <section>
+            {{ post.content|linebreaksbr }}
+        </section>
+
+        <div>
+            <a href="{% url 'blog:post_update' post.pk %}">Редактировать</a>
+            <a href="{% url 'blog:post_delete' post.pk %}">Удалить</a>
+        </div>
+    </article>
+{% endblock %}

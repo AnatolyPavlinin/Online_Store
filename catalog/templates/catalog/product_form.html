@@ -1,0 +1,55 @@
+{% extends "catalog/base.html" %}
+
+{% block title %}{% if product %}{{ product.name }}{% else %}Новый товар{% endif %}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-3">{% if product %}Редактировать{% else %}Создать{% endif %} товар</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="id_name">Название</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_price">Цена</label>
+                    {{ form.price }}
+                    {{ form.price.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_category">Категория</label>
+                    {{ form.category }}
+                    {{ form.category.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_image">Фото</label>
+                    {{ form.image }}
+                    {{ form.image.errors }}
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <!-- Поле справа -->
+                <div class="mb-3">
+                    <label for="id_description">Описание</label>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a href="{% url 'catalog:home' %}" class="btn btn-secondary">Отмена</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
