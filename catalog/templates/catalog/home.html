@@ -49,8 +49,10 @@
 
                         <a href="{% url 'catalog:product_detail' product.pk %}" class="btn btn-primary">Подробнее</a>
 
-                        {% if (request.user == product.owner or perms.catalog.can_unpublish_product) and product.is_published %}
-                             <a href="{% url 'catalog:product_unpublish' product.pk %}" class="btn btn-danger">Снять с публикации</a>
+                        {% if request.user == product.owner or perms.catalog.can_unpublish_product %}
+                            {% if product.is_published %}
+                                <a href="{% url 'catalog:product_unpublish' product.pk %}" class="btn btn-danger">Снять с публикации</a>
+                            {% endif %}
                         {% endif %}
 
                         {% if request.user == product.owner %}
