@@ -153,3 +153,4 @@ CACHES = {
         'LOCATION': 'redis://127.0.0.1:6379/1',
     }
 }
+CACHE_TTL_PRODUCT_DETAIL = 60 * 15

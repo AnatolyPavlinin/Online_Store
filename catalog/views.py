@@ -6,7 +6,8 @@ from django.views import View
 from .forms import ProductForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
+from django.core.cache import cache
+from django.conf import settings
 
 class ProductListView(ListView):
     model = Product
@@ -18,6 +19,17 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
+
+    def get_object(self, queryset=None):
+        product_id = self.kwargs.get('pk')
+        cache_key = f'product_detail_{product_id}'
+        cached_product = cache.get(cache_key)
+        if cached_product:
+            return cached_product
+        product = super().get_object(queryset)
+        cache.set(cache_key, product, settings.CACHE_TTL_PRODUCT_DETAIL)
+        return product
+
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
