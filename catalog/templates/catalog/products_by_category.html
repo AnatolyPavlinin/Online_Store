@@ -1,0 +1,17 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<div class="container my-4">
+    <h1>Товары в категории</h1>
+
+    {% for product in products %}
+        <div class="card mb-3">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description|truncatewords:10 }}</p>
+            <p class="card-text"><strong>Цена:</strong> {{ product.price }} ₽</p>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">Товары в данной категории отсутствуют</div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -8,6 +8,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.cache import cache
 from django.conf import settings
+from .services import get_products_by_category
+
 
 class ProductListView(ListView):
     model = Product
@@ -92,3 +94,12 @@ class ProductUnpublishView(LoginRequiredMixin, PermissionRequiredMixin, Redirect
         product.status = 'hidden'
         product.save()
         return reverse('catalog:product_list')
+
+
+class ProductsByCategoryView(ListView):
+    template_name = 'catalog/products_by_category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        return get_products_by_category(category_id)
